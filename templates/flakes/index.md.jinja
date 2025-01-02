@@ -1,0 +1,62 @@
+# Nix Flakes
+
+## Basic anatomy of a flake
+
+```nix
+{% include 'flakes/basic.nix' %}
+```
+
+https://nix.dev/manual/nix/2.24/command-ref/new-cli/nix3-flake.html#flake-references
+
+## Exposing packages in a basic flake
+
+Packages are system specific
+
+```nix
+{% include 'flakes/packages.nix' %}
+```
+
+Output of `nix flake show`:
+
+```
+└───packages
+    └───x86_64-linux
+        └───hello: package 'hello'
+```
+
+## Cross platform
+
+We can create a function that produces the necessary structure for multiple systems
+
+```nix
+{% include 'flakes/cross-platform.nix' %}
+```
+
+Output of `nix flake show --all-systems`:
+
+```
+└───packages
+    ├───aarch64-linux
+    │   └───hello: package 'hello'
+    └───x86_64-linux
+        └───hello: package 'hello'
+```
+
+## flake-parts
+
+Doing things this way can be unnecessarily complicated! `flake-parts` is a library that can take care of this busy work and more!
+`flake-parts` is becoming more popular, but is still a bit of a hidden gem.
+
+```nix
+{% include 'flakes/flake-parts.nix' %}
+```
+
+Output of `nix flake show --all-systems`:
+
+```
+└───packages
+    ├───aarch64-linux
+    │   └───hello: package 'hello'
+    └───x86_64-linux
+        └───hello: package 'hello'
+```

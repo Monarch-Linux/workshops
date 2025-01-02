@@ -1,0 +1,32 @@
+# NixOS Modules
+
+## Basic anatomy of a module
+
+```nix
+{% include 'modules/basic.nix' %}
+```
+
+https://wiki.nixos.org/wiki/NixOS_modules
+
+Modules that don't include either `config` nor `options` attributes are assumed to only have option definitions.
+The following examples are equivalent.
+
+```
+{
+  programs.neovim.enable = true;
+}
+```
+
+```
+{
+  config = {
+    programs.neovim.enable = true;
+  };
+}
+```
+
+## Declaring options
+
+```nix
+{% include 'modules/declaring.nix' %}
+```
