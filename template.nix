@@ -12,7 +12,19 @@ stdenvNoCC.mkDerivation {
     python312Packages.jinja2
   ];
 
-  src = lib.cleanSource ./.;
+  src =
+    let
+      lessonsFilter = path: type: !(lib.hasPrefix "${toString ./.}/lessons" path);
+    in
+    lib.cleanSourceWith {
+      src = ./.;
+      filter =
+        path: type:
+        builtins.all (f: f path type) [
+          lib.cleanSourceFilter
+          lessonsFilter
+        ];
+    };
 
   buildPhase = ''
     python template.py
